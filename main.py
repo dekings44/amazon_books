@@ -52,8 +52,8 @@ for page in pages:
         state = store.find('span', {'class' : 'a-size-small a-color-secondary a-text-normal'}).text
         book_state.append(state)
         
-        price = children.contents[-1].text
-        # price = store.find('span', {'class' : 'a-size-base a-color-price'}).text
+        # price = children.contents[-1].text
+        price = store.find('a', {'class' : 'a-link-normal a-text-normal'}).text
         book_price.append(price)
         
         
@@ -62,3 +62,6 @@ for page in pages:
 data = pd.DataFrame({"rank": book_rank, "title" : book_title, "author": book_author, "state": book_state, "price": price})
 
 print(data.head())
+
+
+# data.to_csv('amazon_books.csv', index = None)
