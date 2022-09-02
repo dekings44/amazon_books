@@ -13,8 +13,9 @@ header = {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWeb
 
 #declaring the list of empty variables, So that we can append the data overall
 
+book_rank = []
 book_title = []
-author = []
+book_author = []
 book_state =[]
 book_price = []
 
@@ -26,20 +27,26 @@ pages = np.arange(1,5,1)
 for page in pages:
     page = requests.get("https://www.amazon.co.uk/best-sellers-books-Amazon/zgbs/books/ref=zg_bs_pg_1?_encoding=UTF8&pg="+str(page), headers=header)
     soup = BeautifulSoup(page.text, 'html.parser')
-    acc_data = soup.find_all('div', {'id' : 'gridItemRoot'})
+    data = soup.find_all('div', {'id' : 'gridItemRoot'})
     sleep(randint(2,6))
 
-    print(len(acc_data))
+    print(len(data))
     # print(acc_data[0])
-    # for store in acc_data:
-    #     name = store.find('h3', {'class' : 's-item__title'}).text
-    #     acc_name.append(name)
+    for store in data:
+        rank = store.find('span', {'class' : 'zg-bdg-text'}).text
+        book_rank.append(rank)
+
+        title = store.find('div', {'class' : '_cDEzb_p13n-sc-css-line-clamp-1_1Fn1y'}).text
+        book_title.append(title)
+
+        author = store.find('div', {'class' : '_cDEzb_p13n-sc-css-line-clamp-1_1Fn1y'}).text
+        book_author.append(author)
         
-    #     state = store.find('span', {'class' : 'SECONDARY_INFO'}).text
-    #     lap_state.append(state)
+        state = store.find('span', {'class' : 'a-size-small a-color-secondary a-text-normal'}).text
+        book_state.append(state)
         
-    #     price = store.find('span', {'class' : 's-item__price'}).text
-    #     lap_price.append(price)
+        price = store.find('span', {'class' : '_cDEzb_p13n-sc-price_3mJ9Z'}).text
+        book_price.append(price)
         
         
 
