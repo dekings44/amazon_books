@@ -36,17 +36,29 @@ for page in pages:
         rank = store.find('span', {'class' : 'zg-bdg-text'}).text
         book_rank.append(rank)
 
-        title = store.find('div', {'class' : '_cDEzb_p13n-sc-css-line-clamp-1_1Fn1y'}).text
+        children = store.find('div', {'class': 'zg-grid-general-faceout'}).div
+
+        # title = store.find('div', {'class' : '_cDEzb_p13n-sc-css-line-clamp-1_1Fn1y'}).text
+        title = children.contents[1].text
         book_title.append(title)
 
-        author = store.find('div', {'class' : '_cDEzb_p13n-sc-css-line-clamp-1_1Fn1y'}).text
+        
+
+        author = children.contents[2].text
+
+        # author = store.find('div', {'class' : '_cDEzb_p13n-sc-css-line-clamp-1_1Fn1y'}).text
         book_author.append(author)
         
         state = store.find('span', {'class' : 'a-size-small a-color-secondary a-text-normal'}).text
         book_state.append(state)
         
-        price = store.find('span', {'class' : '_cDEzb_p13n-sc-price_3mJ9Z'}).text
+        price = children.contents[-1].text
+        # price = store.find('span', {'class' : 'a-size-base a-color-price'}).text
         book_price.append(price)
         
         
 
+#creating a dataframe 
+data = pd.DataFrame({"rank": book_rank, "title" : book_title, "author": book_author, "state": book_state, "price": price})
+
+print(data.head())
